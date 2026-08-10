@@ -1,0 +1,45 @@
+[project]
+name = "das-llm"
+version = "0.1.0"
+description = "Deterministic Adversarial Simulation (DAS-LLM) Framework for LLM Security Invariants"
+readme = "README.md"
+authors = [
+    { name = "Animesh Singh", email = "animeshs34@gmail.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = ["llm", "security", "adversarial", "testing", "pytest", "ollama", "openai", "claude"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Security",
+    "Topic :: Software Development :: Testing",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pyyaml>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/animeshs34/das-llm"
+Documentation = "https://github.com/animeshs34/das-llm/tree/main/docs"
+Repository = "https://github.com/animeshs34/das-llm.git"
+"Bug Tracker" = "https://github.com/animeshs34/das-llm/issues"
+
+[project.scripts]
+das-llm = "das_llm.cli:main"
+
+[project.entry-points."pytest11"]
+das_llm = "das_llm.pytest_plugin"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+asyncio_mode = "auto"

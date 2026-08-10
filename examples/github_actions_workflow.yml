@@ -1,0 +1,46 @@
+# Copy this file to .github/workflows/das_llm_ci.yml in your repository
+name: DAS-LLM Agent Security CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  das-llm-security-audit:
+    name: LLM Agent Invariant & Security Boundary Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv Package Manager
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Install DAS-LLM and Dependencies
+        run: |
+          uv pip install --system -e .
+
+      - name: Check DAS-LLM Environment & Provider Status
+        run: |
+          das-llm info
+
+      - name: Validate YAML Security Manifests
+        run: |
+          das-llm validate examples/security_manifests/enterprise_multitool.yaml
+
+      - name: Run Pytest LLM Agent Security Boundary Tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          uv run pytest tests/ -v
