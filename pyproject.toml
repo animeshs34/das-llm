@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Animesh Singh", email = "animeshs34@gmail.com" }
 ]
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 requires-python = ">=3.11"
 keywords = ["llm", "security", "adversarial", "testing", "pytest", "ollama", "openai", "claude"]
 classifiers = [
